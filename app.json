@@ -2,6 +2,7 @@
   "expo": {
     "name": "geolocalization-app",
     "slug": "geolocalization-app",
+    "sdkVersion": "40.0.0",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -13,16 +14,26 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "android": {
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
+        "FOREGROUND_SERVICE"
+      ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.beecode.geolocalizationapp",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDVI6ucf4co5I0-zgG8ZdNoq_rk6qBX9nE"
+        }
       }
     },
     "web": {
