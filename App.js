@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import * as Location from "expo-location";
 import {
   Provider as PaperProvider,
   IconButton,
@@ -24,10 +25,9 @@ export default function App() {
   const [sightCoord, setSightCoord] = useState(INITIAL_SIGHT_COORD);
 
   const [markers, setMarkers] = useState([]);
+  const [region, setRegion] = useState();
 
   const tootleSight = () => setIsSight(!isSight);
-
-  const onPressMap = () => {};
 
   const onPressAddMarker = () => {
     tootleSight();
@@ -46,7 +46,41 @@ export default function App() {
       latitude,
       longitude,
     });
+    setRegion(null);
   };
+
+  const getCurrentPosition = async () => {
+
+    try {
+      let { status } = await Location.requestPermissionsAsync();
+
+      if (status !== "granted") {
+        Alert.alert("Ops!", "Permissão de acesso a localização negada.");
+      }
+
+      let {
+        coords: { latitude, longitude },
+      } = await Location.getCurrentPositionAsync();
+
+      const newRegion = {
+        latitude,
+        longitude,
+        latitudeDelta: 0.8,
+        longitudeDelta: 0.121,
+      };
+
+      setRegion(newRegion);
+    } catch (error) {
+      alert(error)
+    }
+
+
+
+  };
+
+  useEffect(() => {
+    getCurrentPosition();
+  }, []);
 
   return (
     <PaperProvider>
@@ -54,10 +88,11 @@ export default function App() {
         <MapView
           style={StyleSheet.absoluteFillObject}
           provider={MapView.PROVIDER_GOOGLE}
-          onPress={onPressMap}
           onRegionChange={onChangeRegion}
-          initialRegion={INITIAL_REGION}
+          initialRegion={region}
+          region={region}
           mapType="standard"
+          showsUserLocation={true}
         >
           {markers.map((marker, index) => (
             <Marker
@@ -91,6 +126,12 @@ export default function App() {
           >
             {isSight ? "Cancelar" : "Marcador"}
           </Button>
+          <Button
+            mode="contained"
+            onPress={getCurrentPosition}
+          >
+            Minha localização
+          </Button>
         </View>
         <StatusBar style="auto" />
       </View>
@@ -109,9 +150,10 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 32,
     borderRadius: 20,
+    width: '100%',
     height: 56,
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-around",
     alignItems: "center",
   },
   sight: {
