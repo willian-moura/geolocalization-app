@@ -8,18 +8,22 @@
     "eject": "expo eject"
   },
   "dependencies": {
-    "expo": "~41.0.1",
+    "@react-native-community/slider": "^3.0.3",
+    "expo": "^41.0.0",
     "expo-location": "~12.0.4",
     "expo-status-bar": "~1.0.4",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
-    "react-native-maps": "0.28.0",
+    "react-native-maps": "0.27.1",
     "react-native-paper": "^4.7.2",
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0"
+    "@babel/core": "~7.9.0",
+    "babel-plugin-module-resolver": "^3.2.0",
+    "eslint-import-resolver-babel-module": "^5.1.0",
+    "eslint-plugin-import": "^2.18.2"
   },
   "private": true
 }
