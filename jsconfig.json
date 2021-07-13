@@ -31,6 +31,9 @@
       ],
       "_utils": [
         "src/utils/*"
+      ],
+      "_documentation": [
+        "documentation/*"
       ]
     }
   }

@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {StyleSheet, View} from "react-native";
+import CornersJSON from '_documentation/corners_dourados'
 import {
     GlaMapView,
     GlaMapMarker,
@@ -19,7 +20,48 @@ export default function Home() {
     const [isSight, setIsSight] = useState(false);
     const [sightCoord, setSightCoord] = useState();
 
-    const [markers, setMarkers] = useState([]);
+    const [markers, setMarkers] = useState([
+        // {
+        //     latitude: -22.383589725386745,
+        //     longitude: -54.514140413462918
+        // },
+        // {
+        //     "latitude": -22.383589725386745,
+        //     "longitude": -54.514140413462918
+        // },
+        // {
+        //     "latitude": -22.383190830687372,
+        //     "longitude": -54.515124644711626
+        // },
+        // {
+        //     "latitude": -22.383190830687372,
+        //     "longitude": -54.515124644711626
+        // },
+        // {
+        //     "latitude": -22.382840369187438,
+        //     "longitude": -54.513801667639335
+        // },
+        // {
+        //     "latitude": -22.382840369187438,
+        //     "longitude": -54.513801667639335
+        // },
+        // {
+        //     "latitude": -22.383788459645892,
+        //     "longitude": -54.513622041974926
+        // },
+        // {
+        //     "latitude": -22.383788459645892,
+        //     "longitude": -54.513622041974926
+        // },
+        // {
+        //     "latitude": -22.384278825808714,
+        //     "longitude": -54.514432548583663
+        // },
+        // {
+        //     "latitude": -22.384278825808714,
+        //     "longitude": -54.514432548583663
+        // },
+    ]);
     const [region, setRegion] = useState();
 
     const getCurrentPosition = async () => {
@@ -60,8 +102,17 @@ export default function Home() {
         setRegion(null);
     };
 
+    const getCorners = () => {
+        const {features} = CornersJSON
+        return features.map(item => ({
+            latitude: item.geometry.coordinates[1],
+            longitude: item.geometry.coordinates[0],
+        }))
+    }
+
     useEffect(() => {
         getCurrentPosition();
+        // setMarkers([...getCorners()])
     }, []);
 
     return (

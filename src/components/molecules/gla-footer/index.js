@@ -56,17 +56,21 @@ const GlaFooter = ({
       setLoading(false)
     }
 
+    const onPressStreetMarker = () => {
+        const centerCoord = {...sightCoord}
+    }
+
     const onMarkerQuantityChange = (value) => {
         setMarkerQuantity(value)
     }
 
     return (
         <View style={styles.footer}>
-            {isSight && <View>
-                <Text>{markerQuantity}</Text>
-            </View>}
 
-            {isSight && <View style={styles.footerTop}>
+            {/*{isSight && <View style={styles.footerTop}>
+                <Text style={{color: 'black'}}>
+                    {markerQuantity}
+                </Text>
                 <GlaSlider
                     value={markerQuantity}
                     onValueChange={onMarkerQuantityChange}
@@ -78,6 +82,27 @@ const GlaFooter = ({
                     maximumTrackTintColor="#000000"
                     thumbTintColor="#6200ee"
                 />
+            </View>}*/}
+
+
+            {isSight &&
+            <View style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexDirection: "column",
+                marginBottom: 10
+            }}
+            >
+                <GlaButton
+                    icon="plus"
+                    mode="contained"
+                    onPress={onPressStreetMarker}
+                    loading={loading}
+                    disabled={loading}
+                >
+                    Trecho de rua
+                </GlaButton>
             </View>}
 
             <View style={styles.footerBottom}>
@@ -123,7 +148,7 @@ const styles = StyleSheet.create({
     footerTop: {
         width: '100%',
         marginBottom: 10,
-        flexDirection: "row",
+        flexDirection: "column",
         justifyContent: "space-around",
         alignItems: "center"
     },
