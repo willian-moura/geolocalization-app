@@ -14,7 +14,9 @@ const GlaFooter = ({
     sightCoord,
     getCurrentPosition,
     isSight,
-    setIsSight
+    setIsSight,
+    corners,
+    setCorners, cornersList
 }) => {
   const VARIATION = 0.005
 
@@ -57,11 +59,23 @@ const GlaFooter = ({
     }
 
     const onPressStreetMarker = () => {
+        console.log('starting calculate')
         const centerCoord = {...sightCoord}
+        const nearCorners = getNearCorners(cornersList, centerCoord, 100)
+        setCorners([...nearCorners])
+        console.log('finished calculate')
+        console.log('corners', nearCorners)
     }
 
     const onMarkerQuantityChange = (value) => {
         setMarkerQuantity(value)
+    }
+
+    const getNearCorners = (corners, currentPoint, range) => {
+        console.log('corners length = ', cornersList.length)
+        return cornersList.filter(item => {
+            return Math.isInRange(currentPoint, item, range)
+        })
     }
 
     return (
