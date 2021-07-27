@@ -1,0 +1,41 @@
+stack overflow question:
+    https://stackoverflow.com/questions/12965090/get-list-of-all-intersections-in-a-city
+
+overpass link
+    http://overpass-turbo.eu/s/QD
+
+overpass query code
+____________________________
+<query type="way" into="hw">
+  <has-kv k="highway"/>
+  <has-kv k="highway" modv="not" regv="footway|cycleway|path|service|track"/>
+  <bbox-query {{bbox}}/>
+</query>
+
+<foreach from="hw" into="w">
+  <recurse from="w" type="way-node" into="ns"/>
+  <recurse from="ns" type="node-way" into="w2"/>
+  <query type="way" into="w2">
+    <item set="w2"/>
+    <has-kv k="highway"/>
+    <has-kv k="highway" modv="not" regv="footway|cycleway|path|service|track"/>
+  </query>
+  <difference into="wd">
+    <item set="w2"/>
+    <item set="w"/>
+  </difference>
+  <recurse from="wd" type="way-node" into="n2"/>
+  <recurse from="w"  type="way-node" into="n3"/>
+  <query type="node">
+    <item set="n2"/>
+    <item set="n3"/>
+  </query>
+  <print/>
+</foreach>
+______________________________
+
+export -> file -> "download/copy as GeoJSON" to download in a json format
+
+the query is gonna return the street intersections coordinates to area of the map that is shown in the screen, so, to get coordinates of a entire city, just make it entire visible on the map screen
+
+
