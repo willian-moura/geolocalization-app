@@ -59,12 +59,9 @@ const GlaFooter = ({
     }
 
     const onPressStreetMarker = () => {
-        console.log('starting calculate')
         const centerCoord = {...sightCoord}
         const nearCorners = getNearCorners(cornersList, centerCoord, 100)
         setCorners([...nearCorners])
-        console.log('finished calculate')
-        console.log('corners', nearCorners)
     }
 
     const onMarkerQuantityChange = (value) => {
@@ -72,10 +69,44 @@ const GlaFooter = ({
     }
 
     const getNearCorners = (corners, currentPoint, range) => {
-        console.log('corners length = ', cornersList.length)
-        return cornersList.filter(item => {
-            return Math.isInRange(currentPoint, item, range)
+        const comparisonFunction = (a, b) => a.distance - b.distance
+
+        const near = [
+            {
+                point: cornersList[0],
+                distance: Math.getDistance(currentPoint, cornersList[0])
+            },
+            {
+                point: cornersList[1],
+                distance: Math.getDistance(currentPoint, cornersList[1])
+            }
+        ]
+
+        near.sort(comparisonFunction)
+
+        cornersList.filter(item => {
+            const distance = Math.getDistance(currentPoint, item)
+
+            if(distance < near[0].distance){
+                near[0] = {
+                    point: item,
+                    distance
+                }
+                near.sort(comparisonFunction)
+                return
+
+            }
+
+            if(distance < near[1].distance){
+                near[1] = {
+                    point: item,
+                    distance
+                }
+                near.sort(comparisonFunction)
+            }
         })
+
+        return near.map(item => item.point)
     }
 
     return (
